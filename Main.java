@@ -12,8 +12,11 @@ public class Main {
         database.openBusDatabase();
         int[] driverIDs = DriverInfo.getDrivers();
         String[] driverNames = new String [driverIDs.length];
-        for (int i=0; i<driverIDs.length; i++)
-            System.out.println(DriverInfo.getName(driverIDs[i]));
+        //for (int i=0; i<driverIDs.length; i++)
+            //System.out.println(DriverInfo.getName(driverIDs[i]));
+
+        RequestHolidayGUI RHGui = new RequestHolidayGUI();
+        RHGui.setVisible(true);        
     }
 
 }
