@@ -1,3 +1,6 @@
+import java.util.Date;
+
+
 /*
  * A very simple application illustrating how to use the interface.
  * Prints the names of all the drivers in the database.
@@ -18,7 +21,17 @@ public class Main {
             //System.out.println(DriverInfo.getName(driverIDs[i]));
 
         RequestHolidayGUI RHGui = new RequestHolidayGUI();
-        RHGui.setVisible(true);        
+        RHGui.setVisible(true); 
+
+        /*Date s = new Date(112, 1, 14);
+        Date e = new Date(112, 1, 18);
+        System.out.println(s.toString());
+ 
+
+        boolean test = HolidayManager.requestHoliday(driverIDs[0], s, e);  
+        if(test)
+         System.out.println("Wohooo!");*/
+        
     }
 
 }
