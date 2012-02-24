@@ -14,15 +14,14 @@ public class Holiday{
         this.driverId = p_driverId;
         this.startDate = p_startDate;
         this.endDate = p_endDate;
-
-        if(hasEnoughDays() && allDaysAreClear(){
+	Calendar acceptDates = startDate;
+        if(hasEnoughDays() && allDaysAreClear()){
 
             System.out.println("This holiday can be set.");
-            DriverInfo.setAvailable(driverId, startDate.
-            for(int i = 1; i < length(), i++){
+            for(int i = 1; i < length(); i++){
                 //for each day set the driver unavilable
-                DriverInfo.setAvailable(driverId,
-                startDate·getDate().addDay(Calendar.DATE, 1));
+                DriverInfo.setAvailable(driverId, acceptDates.getTime(), true);
+                acceptDates.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
     }
@@ -33,15 +32,30 @@ public class Holiday{
     }
 
     private boolean hasEnoughDays(){
-        int currentCount = DriverInfo.getHolidaysTaken();
+        int currentCount = DriverInfo.getHolidaysTaken(driverId);
         return (currentCount + this.length()) < HOLIDAY_LIMIT;
     }
     private boolean allDaysAreClear(){
-        return true;
+      Calendar tempDate = startDate;
+      for(int i = 0;i < length(); i++)
+      {
+        if(dayIsClear(tempDate))
+          return false;
+        tempDate.add(Calendar.DAY_OF_MONTH, 1);
+      }
+      return true;
     }
-    private boolean dayIsClear(){
-        //return true for now
-        return true;    
-    }
+    private boolean dayIsClear(Calendar givenDay)  {
+    int numberTaken=0;
+    int driverIDs[] = DriverInfo.getDrivers();
+    database.openBusDatabase();
+      for(int i = 0; i < driverIDs.length; i++)
+      {
+       if(!DriverInfo.isAvailable(i, givenDay.getTime()))
+         numberTaken++;
+      }
+    return numberTaken > 10;
+  
+  }
 
 }
