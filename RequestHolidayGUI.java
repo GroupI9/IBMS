@@ -29,8 +29,7 @@ public class RequestHolidayGUI extends JFrame implements ActionListener
 
     contents.add(new JLabel("Driver ID:"));
     contents.add(driverId);
-    //contents.add(new JLabel("Number of days:"));
-    //contents.add(daysNumber);
+   
     contents.add(new JLabel("Start day:"));
     contents.add(sDay);    
     contents.add(new JLabel("Start month:"));
@@ -59,27 +58,20 @@ public class RequestHolidayGUI extends JFrame implements ActionListener
 
   public void actionPerformed(ActionEvent event)
   {
-    int id = Integer.parseInt(driverId.getText());
-    //int number = Integer.parseInt(daysNumber.getText());
-    //HolidayManager.RequestHoliday(id, number);
+    int id = Integer.parseInt(driverId.getText());   
 
     int sday = Integer.parseInt(sDay.getText());
     int smonth = Integer.parseInt(sMonth.getText());
     int syear = Integer.parseInt(sYear.getText());
-    int eday = Integer.parseInt(sDay.getText());
-    int emonth = Integer.parseInt(sMonth.getText());
-    int eyear = Integer.parseInt(sYear.getText());
 
-    Calendar startDate = new GregorianCalendar(syear, smonth, sday);
-    Calendar endDate = new GregorianCalendar(eyear, emonth, eday);
+    int eday = Integer.parseInt(eDay.getText());
+    int emonth = Integer.parseInt(eMonth.getText());
+    int eyear = Integer.parseInt(eYear.getText());
+
+    Calendar startDate = new GregorianCalendar(syear, smonth-1, sday);
+    Calendar endDate = new GregorianCalendar(eyear, emonth-1, eday);
 
     Holiday get_hol = new Holiday(id, startDate, endDate);
     message.setText("Wohoo!");    
-  }  
-
-  /*public static void main(String[] args)
-  {
-    RequestHolidayGUI RHGui = new RequestHolidayGUI();
-    RHGui.setVisible(true);
-  }*/
+  }    
 }
