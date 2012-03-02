@@ -20,14 +20,10 @@ public class Holiday{
             System.out.println("This holiday can be set.");            
             for(int i = 1; i < length(); i++){                
                 //for each day set the driver unavilable                
-                DriverInfo.setAvailable(driverId, acceptDates.getTime(), true);
-                if(DriverInfo.isAvailable(driverId, acceptDates.getTime()))
-		  System.out.println("Set!!!");
+                DriverInfo.setAvailable(driverId, acceptDates.getTime(), true);                	  
                 acceptDates.add(Calendar.DAY_OF_MONTH, 1);
             }
-	    System.out.println("Done!!!"); 
-            if(dayIsClear(startDate))
-              System.out.println(numberTaken);           
+	    System.out.println("Done!!!");                  
         }
         //database.close();
     }
