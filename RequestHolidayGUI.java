@@ -72,6 +72,9 @@ public class RequestHolidayGUI extends JFrame implements ActionListener
     Calendar endDate = new GregorianCalendar(eyear, emonth-1, eday);
 
     Holiday get_hol = new Holiday(id, startDate, endDate);
-    message.setText("Wohoo!");    
+    if(Holiday.message == 1)
+      message.setText("The holiday is set!");
+    else
+      message.setText("Sorry, the holiday is not set!");    
   }    
 }
