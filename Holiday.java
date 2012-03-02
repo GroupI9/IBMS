@@ -8,6 +8,7 @@ public class Holiday{
     //store the id for the driver requesting the holiday
     int driverId;
     public int numberTaken;
+    public static int message;
    
     //instanciate the object
     public Holiday(int p_driverId, Calendar p_startDate, Calendar p_endDate){
@@ -16,15 +17,16 @@ public class Holiday{
         this.startDate = p_startDate;
         this.endDate = p_endDate;
 	Calendar acceptDates = (Calendar) startDate.clone();
-        if(hasEnoughDays() && allDaysAreClear()){
-            System.out.println("This holiday can be set.");            
-            for(int i = 1; i < length(); i++){                
+        if(hasEnoughDays() && allDaysAreClear()){                        
+            for(int i = 1; i <= length(); i++){                
                 //for each day set the driver unavilable                
-                DriverInfo.setAvailable(driverId, acceptDates.getTime(), true);                	  
+                DriverInfo.setAvailable(driverId, acceptDates.getTime(), false);                	  
                 acceptDates.add(Calendar.DAY_OF_MONTH, 1);
-            }
-	    System.out.println("Done!!!");                  
+            }	                     
+            message = 1;
         }
+        else
+          message = 0;
         //database.close();
     }
     
@@ -57,8 +59,7 @@ public class Holiday{
       {
         if(!DriverInfo.isAvailable(driverIDs[i], givenDay.getTime()))
           numberTaken++;
-      }
-      System.out.println(numberTaken);
+      }      
       return numberTaken < 10;  
     }
 }
