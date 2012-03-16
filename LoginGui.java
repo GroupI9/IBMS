@@ -86,6 +86,7 @@ public class LoginGui extends JFrame implements ActionListener
       usernameField.setVisible(false);
       usernameLabel.setVisible(false);
     } 
+   
     else if (source == driverOption)
     {
       promptLabel.setVisible(false);
@@ -93,6 +94,11 @@ public class LoginGui extends JFrame implements ActionListener
       usernameLabel.setVisible(true);
       passwordLabel.setVisible(false);
       passwordField.setVisible(false);
+      if(source == LoginButton)
+      {
+        int UserID = Integer.parseInt(usernameField.getText);
+	LoginManager user = new LoginManager(UserID);
+      }
     } 
     
     else if (source == CancelButton)

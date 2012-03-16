@@ -14,14 +14,17 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+       
+        LoginGui login = new LoginGui();
+	login.setVisible(true);
         database.openBusDatabase();
         int[] driverIDs = DriverInfo.getDrivers();
         String[] driverNames = new String [driverIDs.length];
         //for (int i=0; i<driverIDs.length; i++)
             //System.out.println(DriverInfo.getName(driverIDs[i]));
 
-        RequestHolidayGUI RHGui = new RequestHolidayGUI();
-        RHGui.setVisible(true); 
+       // RequestHolidayGUI RHGui = new RequestHolidayGUI();
+       // RHGui.setVisible(true); 
 
         /*Date s = new Date(112, 1, 14);
         Date e = new Date(112, 1, 18);
