@@ -26,16 +26,27 @@ public class tempAlg
     TimetableInfo today = new TimetableInfo();//get timetablekind
 
     Calendar tempCal = (Calendar)startDate.clone();
-    for(int i = 0; i < 7; i++)
+    for(int i = 0; i < 7; i++)//for each day
     {
-      System.out.println(tempCal.getTime());
       thisday = tempCal.getTime();//convert cal to date obj
-      today.todaytime = TimetableInfo.timetableKind(thisday);
+      today.todaytime = TimetableInfo.timetableKind(thisday);//get timetablekind
+      System.out.println(tempCal.getTime());
+      for(int j = 0; j < routeIDs.length; j++)//for each route
+      {
+	System.out.println("Route: " + routeIDs[j]);
+	serviceIDs = TimetableInfo.getServices(routeIDs[j], today.todaytime);	
+	for(int k = 0; k < serviceIDs.length; k++)//for each service
+	{
+	  System.out.println("Service: " + serviceIDs[k]);
+	  todayservicetimes = TimetableInfo.getServiceTimes(routeIDs[j], today.todaytime, serviceIDs[k]);
+	  toString(todayservicetimes);  
+	}
+      }
       tempCal.add(Calendar.DATE, 1);
-      serviceIDs = TimetableInfo.getServices(routeIDs[1], today.todaytime);
-      toString(serviceIDs);
     }
-            
+    //  todayservicetimes = TimetableInfo.getServiceTimes(routeIDs[1], today.todaytime,
+   //   serviceIDs[1]);
+   //   toString(todayservicetimes);    
   }
   
   public static void toString(int[]array)
