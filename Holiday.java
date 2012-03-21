@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Holiday{
+    //this is my holiday class
     //store the start and end date of the requested holiday
     private Calendar startDate;
     private Calendar endDate;
