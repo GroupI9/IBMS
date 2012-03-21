@@ -3,10 +3,8 @@
  * and open the template in the editor.
  */
 
-package ibms.models;
 
-
-import ibms.wrappers.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Driver {
@@ -85,4 +83,14 @@ public class Driver {
                 + "Holidays Taken: %d\nHours This Week: %d",
                 this.number, this.name, this.holidaysTaken, this.hoursThisWeek);
     }
+    public static ArrayList<Driver> getAllDrivers()
+    {
+        ArrayList<Driver> drivers = new ArrayList<Driver>();
+        int[] d = DriverInfo.getDrivers();
+        for (int driver : d){
+            System.out.println(driver);
+            drivers.add(new Driver(driver));
+        }//for
+        return drivers;
+    }//getAllDrivers
 }
