@@ -23,22 +23,22 @@ public class tempAlg
     busIDs = BusInfo.getBuses();//get all buses
     
     Date thisday;//convert cal to date obj
-    TimetableInfo today = new TimetableInfo();//get timetablekind
+    //TimetableInfo today = new TimetableInfo();//get timetablekind
 
     Calendar tempCal = (Calendar)startDate.clone();
     for(int i = 0; i < 7; i++)//for each day
     {
       thisday = tempCal.getTime();//convert cal to date obj
-      today.todaytime = TimetableInfo.timetableKind(thisday);//get timetablekind
+      //today.todaytime = TimetableInfo.timetableKind(thisday);//get timetablekind
       System.out.println(tempCal.getTime());
       for(int j = 0; j < routeIDs.length; j++)//for each route
       {
 	System.out.println("Route: " + routeIDs[j]);
-	serviceIDs = TimetableInfo.getServices(routeIDs[j], today.todaytime);	
+	serviceIDs = TimetableInfo.getServices(routeIDs[j], TimetableInfo.timetableKind(thisday));	
 	for(int k = 0; k < serviceIDs.length; k++)//for each service
 	{
 	  System.out.println("Service: " + serviceIDs[k]);
-	  todayservicetimes = TimetableInfo.getServiceTimes(routeIDs[j], today.todaytime, serviceIDs[k]);
+	  todayservicetimes = TimetableInfo.getServiceTimes(routeIDs[j], TimetableInfo.timetableKind(thisday), serviceIDs[k]);
 	  toString(todayservicetimes);  
 	}
       }
