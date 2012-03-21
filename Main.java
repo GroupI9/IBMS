@@ -1,6 +1,8 @@
+package groupi9;
+
 import java.util.Date;
 import java.util.Calendar;
-
+import groupi9.models.*;
 /*
  * A very simple application illustrating how to use the interface.
  * Prints the names of all the drivers in the database.
