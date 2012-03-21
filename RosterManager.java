@@ -21,7 +21,10 @@ public class RosterManager
   private Calendar startDate;
   private Calendar endDate;
   private int numberOfDays;
-
+  private service dailyservices[];
+  private int todayservicetimes[];
+  private int servicearrayindex = 0;
+  
   public RosterManager(Calendar startDate, Calendar endDate)
   {
     this.startDate = startDate;
@@ -61,22 +64,35 @@ public class RosterManager
 
   private int getNumberOfServices(Date day)
   {
-    int numberOfServicesToday
+    int numberOfServicesToday;
     for(int j=0; j<routes.length; j++)
       numberOfServicesToday = TimetableInfo.getNumberOfServices(route, day); // have to be corrected for 358
     return numberOfServicesToday;
   }
 
-  private int[] getServices(Calendar day)
-  {
-    int[] allServices;
-    int[] Services;
-    for(int i=0; i<routes.length; i++)
+  private service[] getServices(Calendar day)
+  {    
+    dailyservices = new service[numberOfServices];
+    for(int j = 0; j < routes.length; j++)//for each route
     {
-      int[] Services = TimetableInfo.getServices(route, TimetableInfo.timetableKind(day));
-      allServices = concat(Services, allServices);
+      services = TimetableInfo.getServices(routeIDs[j],
+					 TimetableInfo.timetableKind(day));
+      int num = TimetableInfo.getNumberOfServices(routeIDs[j],
+					TimetableInfo.timetableKind(thisday));
+      for(int k = 0; k < num; k++)//for each service
+      {
+        todayservicetimes = TimetableInfo.getServiceTimes(routeIDs[j],
+	 				 TimetableInfo.timetableKind(thisday),k);
+	service thisservice = new service(serviceIDs[k], todayservicetimes[0], 
+	  				todayservicetimes[todayservicetimes.length
+					- 1]);
+	dailyservices[servicearrayindex] = thisservice;
+        servicearrayindex++;
+      }
     }
-    return allServices;
+    for(int i = 0; i < array.length; i++)
+      System.out.println(array[i].serviceid + " " + array[i].starttime + " " 
+     					 + array[i].endtime);   
   }
 
 
@@ -116,7 +132,7 @@ public class RosterManager
   {
   }
  
-  private void setBusUnavailable(bus_id)
+  private void setBusUnavailable(int bus_id)
   {
   }
 
