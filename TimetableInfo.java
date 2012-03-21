@@ -26,7 +26,7 @@ public class TimetableInfo
   public timetableKind todaytime;
 
   // This class is not intended to be instantiated
-  public TimetableInfo() 
+  private TimetableInfo() 
   { 
     
   }
