@@ -23,10 +23,12 @@ public class TimetableInfo
    * The kinds of timetale available. Sunday services run on bank holidays.
    */
   public enum timetableKind {weekday, saturday, sunday};
+  public timetableKind todaytime;
 
   // This class is not intended to be instantiated
-  private TimetableInfo() 
+  public TimetableInfo() 
   { 
+    
   }
 
   /**
