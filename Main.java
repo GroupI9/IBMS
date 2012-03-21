@@ -39,7 +39,7 @@ public class Main {
 	
 	Calendar startDate = Calendar.getInstance();
 	startDate.set(2012, 0, 25);
-	Calendar endDate = Calendar.getInstance();
+	/*Calendar endDate = Calendar.getInstance();
 	endDate.set(2012, 5, 21);
         int getday = 0;
 	if(startDate.get(Calendar.DAY_OF_WEEK) != 2)
@@ -51,9 +51,10 @@ public class Main {
 	    getday = (getday - 2);
 	  
 	  startDate.add(Calendar.DATE, -getday);
-	}    
+	}    */
 	
-	tempAlg testalg = new tempAlg(startDate);
+	RosterManager test = new RosterManager(startDate);
+	test.createRoster();
     }
 
 }
