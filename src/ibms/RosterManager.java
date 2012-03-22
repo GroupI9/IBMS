@@ -54,9 +54,6 @@ public class RosterManager
     minutesWorked = new int[drivers.length];
     numberOfServices = 0;
     routes = BusStopInfo.getRoutes();
-     
-    busesUsed = new busUsed[buses.length]; 
-
   }
 
 
@@ -71,6 +68,7 @@ public class RosterManager
       count = 0;
       numberOfServices = getNumberOfServices(today.getTime());
       driversUsed = new driverUsed[numberOfServices];
+      busesUsed = new busUsed[numberOfServices];
       getServices(today);				// correct it!
       packs[i] = new Pack[numberOfServices];
       for(int j=0; j<numberOfServices; j++)
@@ -87,6 +85,7 @@ public class RosterManager
       }	    
       today.add(Calendar.DAY_OF_MONTH, 1);
       driversUsedIndex = 0;
+      busesUsedIndex = 0;
     }
     printPacks();    
   }
@@ -189,8 +188,11 @@ public class RosterManager
   {
     int bus_id = 0;
     boolean temp = false;
+    boolean found = false;
     for(int i=0; i<buses.length; i++)
     {
+      temp = false;
+      found = false;
       if(BusInfo.isAvailable(busesList[i], day))
       {
         for(int j=0; j<busesUsedIndex; j++)
@@ -201,16 +203,22 @@ public class RosterManager
 	      temp = true;
 	    else
 	      temp = false;
+            found = true;
 	  }
         }
 	if(temp)
 	{
-	  bus_id = busesList[i];
-	  busesUsed[busesUsedIndex] = new busUsed(bus_id, serv.starttime, serv.endtime);
-	  busesUsedIndex++;
-	}
+	  bus_id = busesList[i];	 
+	}   
+        else
+        {
+            if(!found)
+              bus_id = busesList[i];
+        }
       }
     }
+    busesUsed[busesUsedIndex] = new busUsed(bus_id, serv.starttime, serv.endtime);
+    busesUsedIndex++;
     return bus_id;
   }
   
@@ -228,12 +236,14 @@ public class RosterManager
 	System.out.print("Service ID: " + packs[i][j].serv.serviceid + " ");
 	System.out.print("Service Time: " + packs[i][j].serv.starttime + " ");
         System.out.print("Bus ID: " + packs[i][j].bus_id + " ");
-	System.out.println("Driver ID: " + packs[i][j].driver_id);
+	System.out.println("Driver ID: " + packs[i][j].driver_id + " ");
 	
 	
       }	    
       today.add(Calendar.DAY_OF_MONTH, 1);
-    }    
+    }
+    for(int k=0; k<drivers.length; k++)
+      System.out.println("Driver ID: " + drivers[k] + " " + "Driver working time: " + minutesWorked[k]);
   }
 
 }
