@@ -15,6 +15,7 @@ import ibms.exceptions.NotEnoughHolidaysException;
 import ibms.exceptions.UnknownDriverException;
 import ibms.models.Driver;
 import ibms.models.Holiday;
+import ibms.models.RestDay;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,9 +57,7 @@ public class DriverToolsGUI extends javax.swing.JFrame {
         txtEndDate = new javax.swing.JTextField();
         pnlRestDay = new javax.swing.JPanel();
         lblFirstDay = new javax.swing.JLabel();
-        lblSecondDay = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtFirstDay = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         txtDriverId = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
@@ -143,20 +142,21 @@ public class DriverToolsGUI extends javax.swing.JFrame {
 
         pnlRestDay.setBorder(javax.swing.BorderFactory.createTitledBorder("Define Rest Day"));
 
-        lblFirstDay.setText("First Day");
+        lblFirstDay.setText("Rest Day:");
 
-        lblSecondDay.setText("Second Day");
-
-        jTextField1.setText("dd-mm-yyyy");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtFirstDay.setText("dd-mm-yyyy");
+        txtFirstDay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtFirstDayActionPerformed(evt);
             }
         });
 
-        jTextField2.setText("dd-mm-yyyy");
-
         jButton1.setText("Define");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlRestDayLayout = new javax.swing.GroupLayout(pnlRestDay);
         pnlRestDay.setLayout(pnlRestDayLayout);
@@ -164,18 +164,14 @@ public class DriverToolsGUI extends javax.swing.JFrame {
             pnlRestDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRestDayLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlRestDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFirstDay, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSecondDay, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addGroup(pnlRestDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
+                .addComponent(lblFirstDay, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addComponent(txtFirstDay, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(89, Short.MAX_VALUE))
             .addGroup(pnlRestDayLayout.createSequentialGroup()
-                .addGap(148, 148, 148)
+                .addGap(153, 153, 153)
                 .addComponent(jButton1)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
         pnlRestDayLayout.setVerticalGroup(
             pnlRestDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,12 +179,8 @@ public class DriverToolsGUI extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(pnlRestDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFirstDay)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFirstDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlRestDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSecondDay)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -197,16 +189,16 @@ public class DriverToolsGUI extends javax.swing.JFrame {
         pnlHoliday.setLayout(pnlHolidayLayout);
         pnlHolidayLayout.setHorizontalGroup(
             pnlHolidayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHolidayLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHolidayLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlHolidayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHolidayLayout.createSequentialGroup()
+                .addGroup(pnlHolidayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlRestDay, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlBook, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlHolidayLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
                         .addComponent(txtHolidaysTaken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlRestDay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         pnlHolidayLayout.setVerticalGroup(
@@ -283,8 +275,8 @@ public class DriverToolsGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblError)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlHoliday, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pnlHoliday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -346,13 +338,26 @@ public class DriverToolsGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBookMouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtFirstDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirstDayActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtFirstDayActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try{
+            Calendar first = new GregorianCalendar();
+            first.setTime(formatter.parse(this.txtFirstDay.getText()));
+            RestDay newRestDay = new RestDay(currentDriver.getNumber(), first);
+        }catch(DateTakenException e){
+            this.lblError.setText("You're already inavilable on the date you selected.")
+        }catch(Exception e){
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
     * @param args the command line arguments
@@ -377,19 +382,17 @@ public class DriverToolsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblDriverId;
     private javax.swing.JLabel lblEndDate;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFirstDay;
-    private javax.swing.JLabel lblSecondDay;
     private javax.swing.JLabel lblStartDate;
     private javax.swing.JPanel pnlBook;
     private javax.swing.JPanel pnlHoliday;
     private javax.swing.JPanel pnlRestDay;
     private javax.swing.JTextField txtDriverId;
     private javax.swing.JTextField txtEndDate;
+    private javax.swing.JTextField txtFirstDay;
     private javax.swing.JTextField txtHolidaysTaken;
     private javax.swing.JTextField txtStartDate;
     // End of variables declaration//GEN-END:variables
