@@ -67,7 +67,8 @@ public class RosterManager
       
     for(int i=0; i<numberOfDays; i++)
     {
-      count = 0;      
+      
+      count = 0;
       numberOfServices = getNumberOfServices(today.getTime());
       driversUsed = new driverUsed[numberOfServices];
       getServices(today);				// correct it!
@@ -77,14 +78,11 @@ public class RosterManager
 	packs[i][j] = new Pack();
 	packs[i][j].serv = getNextService();// correct it!
 	packs[i][j].driver_id = getLeastWorkingDriver(drivers, today.getTime(), packs[i][j].serv);   // correct it!
-        packs[i][j].bus_id = getAvailableBus(buses, today.getTime(), packs[i][j].serv);				// correct it! 
-        System.out.println("THIS DRIVER IS IN THE PACK: " + packs[i][j].driver_id);
+        packs[i][j].bus_id = getAvailableBus(buses, today.getTime(), packs[i][j].serv);		// correct it!
         int findDriver = 0;
 	for(int k = 0; k < drivers.length; k++)
 	  if(packs[i][j].driver_id == drivers[k])
 	    findDriver = k;
-
-        System.out.println("THIS DRIVER WAS SELECTED AND UPDATED: " + drivers[findDriver]);
 	minutesWorked[findDriver] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
       }	    
       today.add(Calendar.DAY_OF_MONTH, 1);
@@ -152,47 +150,38 @@ public class RosterManager
     {
       temp = false;
       found = false;
-      System.out.println(driversList[i] + " " + minutesWorked[i] + " " + minMins);
       if(minutesWorked[i] < minMins && DriverInfo.isAvailable(driversList[i], day))
-      {        
-        System.out.println("AVAILABLE AND LESS MINS");
+      {
         for(int j=0; j<driversUsedIndex; j++)
 	{	   
 	  if(driversList[i] == driversUsed[j].driver_id)
 	  {
-            System.out.println("USED");
             if(serv.starttime > driversUsed[j].endTime)
               temp = true;
 	    else
             {
               temp = false;
-	      System.out.println("IN USE");
             }
-              found = true;        
+              found = true;
 	  }  	  
 	}   
 	if(temp)
 	{
-	  System.out.println("TEMP");
           driver = driversList[i];
           minMins = minutesWorked[i];
-	  driversUsed[driversUsedIndex] = new driverUsed(driver, serv.starttime, serv.endtime);
-	  driversUsedIndex++;
 	}
 	else
 	{
 	  if(!found)
 	  {
-	    System.out.println("NOT FOUND");
             driver = driversList[i];
 	    minMins = minutesWorked[i];
-	    driversUsed[driversUsedIndex] = new driverUsed(driver, serv.starttime, serv.endtime);
-	    driversUsedIndex++;
 	  }
 	}
       }      
     }  
-    
+    driversUsed[driversUsedIndex] = new driverUsed(driver, serv.starttime, serv.endtime);
+    driversUsedIndex++;
     return driver;
   }
 
@@ -232,11 +221,13 @@ public class RosterManager
     System.out.println("IN PRINT PACKS METHOD");
     for(int i=0; i<numberOfDays; i++)
     {
-      numberOfServices = getNumberOfServices(today.getTime()); 
+      System.out.println(TimetableInfo.timetableKind(today.getTime()));
+      numberOfServices = getNumberOfServices(today.getTime());
       for(int j=0; j<numberOfServices; j++)
       {
 	System.out.print("Service ID: " + packs[i][j].serv.serviceid + " ");
-	System.out.print("Bus ID: " + packs[i][j].bus_id + " ");
+	System.out.print("Service Time: " + packs[i][j].serv.starttime + " ");
+        System.out.print("Bus ID: " + packs[i][j].bus_id + " ");
 	System.out.println("Driver ID: " + packs[i][j].driver_id);
 	
 	
