@@ -1,6 +1,6 @@
 package ibms;
-import ibms.wrappers.*;
 import java.util.*;
+import ibms.wrappers.*;
 
 class Pack
 {
@@ -23,15 +23,15 @@ public class RosterManager
   private Calendar startDate;
   private Calendar endDate;
   private int numberOfDays;
-  private service dailyservices[];
-  private int todayservicetimes[];
+  private service[] dailyservices;
+  private int[] todayservicetimes;
   private int servicearrayindex = 0;
   private driverUsed[] driversUsed;
   private int driversUsedIndex = 0;
   private busUsed[] busesUsed;
   private int busesUsedIndex = 0;
   private service[] todayServices;
-  
+  private int minMins = 3000;
   public RosterManager(Calendar startDay)
   {
     database.openBusDatabase();
@@ -66,25 +66,30 @@ public class RosterManager
   public void createRoster()
   {
     Calendar today = (Calendar) startDate.clone();
-    int count;   
+    int count;     
+      
     for(int i=0; i<numberOfDays; i++)
     {
       count = 0;      
       numberOfServices = getNumberOfServices(today.getTime()); 
-      todayServices = getServices(today);				// correct it!
+      getServices(today);				// correct it!
       packs[i] = new Pack[numberOfServices];
-      for(int j=0; j<numberOfServices; i++)
-      {
-        System.out.println("" + i + " " + j);
-        packs[i][j].serv = getNextService();		// correct it!
+      for(int j=0; j<numberOfServices; j++)
+      {    
+	packs[i][j] = new Pack();
+	packs[i][j].serv = getNextService();// correct it!
 	packs[i][j].driver_id = getLeastWorkingDriver(drivers, today.getTime(), packs[i][j].serv);   // correct it!
-        packs[i][j].bus_id = getAvailableBus(buses, today.getTime(), packs[i][j].serv);				// correct it!
-//        setDriverUnavailable(packs[i][j].driver_id);
-//	setBusUnavailable(packs[i][j].bus_id);        
-        minutesWorked[packs[i][j].driver_id] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
+        packs[i][j].bus_id = getAvailableBus(buses, today.getTime(), packs[i][j].serv);				// correct it! 
+        int findDriver = 0;
+	for(int k = 0; k < drivers.length; k++)
+	  if(packs[i][j].driver_id == drivers[k])
+	    findDriver = k;
+	    
+	minutesWorked[findDriver] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
       }	    
       today.add(Calendar.DAY_OF_MONTH, 1);
-    }    
+    }
+    printPacks();    
   }
 
 
@@ -96,9 +101,7 @@ public class RosterManager
     return numberOfServicesToday;
   }
 
-
-
-  private service[] getServices(Calendar day)
+  private void getServices(Calendar day)
   {    
     dailyservices = new service[numberOfServices];
     for(int j = 0; j < routes.length; j++)//for each route
@@ -115,10 +118,11 @@ public class RosterManager
 	  				todayservicetimes[todayservicetimes.length
 					- 1]);
 	dailyservices[servicearrayindex] = thisservice;
-        servicearrayindex++;
+	servicearrayindex++;
       }
     }
-    return dailyservices;   
+    todayServices = dailyservices;
+    servicearrayindex = 0;
   }
 
 
@@ -141,34 +145,46 @@ public class RosterManager
 
   private int getLeastWorkingDriver(int[] driversList, Date day, service serv)
   {
-    int minMins = 3000;
-    int driver_id=0;
+    int driver = 0;
     boolean temp = false;
+    boolean found = false;
     for(int i=0; i<driversList.length; i++)
     {
-      if(minutesWorked[i] < minMins && DriverInfo.isAvailable(driversList[i], day))
+      if(minutesWorked[i] <= minMins && DriverInfo.isAvailable(driversList[i], day))
       {        
+        
         for(int j=0; j<driversUsedIndex; j++)
-	{	  
-          if(driversList[i] == driversUsed[j].driver_id)
+	{	   
+	  if(driversList[i] == driversUsed[j].driver_id)
 	  {
             if(serv.starttime > driversUsed[j].endTime)
 	      temp = true;
 	    else
-	      temp = false;	    
+	      temp = false;
+	    found = true;	    
 	  }  	  
 	}   
 	if(temp)
 	{
-	  driver_id = driversList[i];
+	  driver = driversList[i];
           minMins = minutesWorked[i];
-	  driversUsed[driversUsedIndex] = new driverUsed(driver_id, serv.starttime, serv.endtime);
+	  driversUsed[driversUsedIndex] = new driverUsed(driver, serv.starttime, serv.endtime);
 	  driversUsedIndex++;
-	}    
+	}
+	else
+	{
+	  if(!found)
+	  {
+	    driver = driversList[i];
+	    minMins = minutesWorked[i];
+	    driversUsed[driversUsedIndex] = new driverUsed(driver, serv.starttime, serv.endtime);
+	    driversUsedIndex++;
+	  }
+	}
       }      
     }  
-      
-    return driver_id;
+    System.out.println(driver + " " + minMins);
+    return driver;
   }
 
   private int getAvailableBus(int[] busesList, Date day, service serv)
@@ -198,6 +214,25 @@ public class RosterManager
       }
     }
     return bus_id;
+  }
+  
+  private void printPacks()
+  {
+    Calendar today = (Calendar) startDate.clone();
+    
+    for(int i=0; i<numberOfDays; i++)
+    {
+      numberOfServices = getNumberOfServices(today.getTime()); 
+      for(int j=0; j<numberOfServices; j++)
+      {
+	System.out.print("Service ID: " + packs[i][j].serv.serviceid + " ");
+	System.out.print("Bus ID: " + packs[i][j].bus_id + " ");
+	System.out.println("Driver ID: " + packs[i][j].driver_id);
+	
+	
+      }	    
+      today.add(Calendar.DAY_OF_MONTH, 1);
+    }    
   }
 /*
   private void setDriverUnavailable(int driver_id)
