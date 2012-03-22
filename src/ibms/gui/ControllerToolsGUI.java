@@ -45,7 +45,18 @@ public class ControllerToolsGUI extends javax.swing.JFrame {
 
         jLabel2.setText("Controller Password:");
 
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
+
         btnUnlock.setText("unlock");
+        btnUnlock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnlockActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlLoginLayout = new javax.swing.GroupLayout(pnlLogin);
         pnlLogin.setLayout(pnlLoginLayout);
@@ -96,6 +107,21 @@ public class ControllerToolsGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void btnUnlockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnlockActionPerformed
+       char[] pw = txtPassword.getPassword();
+       //for(int i=0; i<pw.length; i++)
+       if(pw.length==2)
+           if(pw[0]=='i' && pw[1]=='9')
+           {
+             GetRosterGUI roster = new GetRosterGUI();
+             roster.setVisible(true);
+           }
+
+    }//GEN-LAST:event_btnUnlockActionPerformed
 
     /**
     * @param args the command line arguments
