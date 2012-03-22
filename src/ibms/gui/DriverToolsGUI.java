@@ -61,7 +61,6 @@ public class DriverToolsGUI extends javax.swing.JFrame {
         setTitle("Driver Tools");
 
         pnlHoliday.setBorder(javax.swing.BorderFactory.createTitledBorder("Holidays"));
-        pnlHoliday.setToolTipText("null");
         pnlHoliday.setOpaque(false);
 
         jTextArea1.setColumns(20);
@@ -106,19 +105,20 @@ public class DriverToolsGUI extends javax.swing.JFrame {
         pnlBookLayout.setHorizontalGroup(
             pnlBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBookLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnlBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblStartDate)
-                    .addComponent(lblEndDate))
-                .addGap(132, 132, 132)
-                .addGroup(pnlBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtEndDate)
-                    .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                    .addGroup(pnlBookLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnlBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStartDate)
+                            .addComponent(lblEndDate))
+                        .addGap(132, 132, 132)
+                        .addGroup(pnlBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtEndDate)
+                            .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)))
+                    .addGroup(pnlBookLayout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addComponent(btnBook)))
                 .addContainerGap(24, Short.MAX_VALUE))
-            .addGroup(pnlBookLayout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(btnBook)
-                .addContainerGap(172, Short.MAX_VALUE))
         );
         pnlBookLayout.setVerticalGroup(
             pnlBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,9 +175,9 @@ public class DriverToolsGUI extends javax.swing.JFrame {
             }
         });
 
-        lblDriverId.setText("Enter Driver Id:");
+        lblDriverId.setText("Enter Driver Number:");
 
-        lblError.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        lblError.setFont(new java.awt.Font("Ubuntu", 1, 14));
         lblError.setText("No driver selected.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

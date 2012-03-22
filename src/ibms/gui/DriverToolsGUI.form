@@ -255,7 +255,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblDriverId">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Enter Driver Id:"/>
+        <Property name="text" type="java.lang.String" value="Enter Driver Number:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblError">
