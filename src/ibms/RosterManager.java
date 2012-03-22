@@ -8,8 +8,6 @@ class Pack
   int bus_id;
   int driver_id;
 }
-
-
 public class RosterManager
 {
   private int[] services;
@@ -31,7 +29,6 @@ public class RosterManager
   private busUsed[] busesUsed;
   private int busesUsedIndex = 0;
   private service[] todayServices;
-  private int minMins = 3000;
   public RosterManager(Calendar startDay)
   {
     database.openBusDatabase();
@@ -80,18 +77,19 @@ public class RosterManager
 	packs[i][j].serv = getNextService();// correct it!
 	packs[i][j].driver_id = getLeastWorkingDriver(drivers, today.getTime(), packs[i][j].serv);   // correct it!
         packs[i][j].bus_id = getAvailableBus(buses, today.getTime(), packs[i][j].serv);				// correct it! 
+        System.out.println("THIS DRIVER IS IN THE PACK: " + packs[i][j].driver_id);
         int findDriver = 0;
 	for(int k = 0; k < drivers.length; k++)
 	  if(packs[i][j].driver_id == drivers[k])
 	    findDriver = k;
-	    
+
+        System.out.println("THIS DRIVER WAS SELECTED AND UPDATED: " + drivers[findDriver]);
 	minutesWorked[findDriver] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
       }	    
       today.add(Calendar.DAY_OF_MONTH, 1);
     }
     printPacks();    
   }
-
 
   private int getNumberOfServices(Date day)
   {
@@ -125,7 +123,6 @@ public class RosterManager
     servicearrayindex = 0;
   }
 
-
   private service getNextService()
   {
     int startTime = 1500;
@@ -145,11 +142,13 @@ public class RosterManager
 
   private int getLeastWorkingDriver(int[] driversList, Date day, service serv)
   {
+    int minMins = 3000;
     int driver = 0;
     boolean temp = false;
     boolean found = false;
     for(int i=0; i<driversList.length; i++)
     {
+      System.out.println(driversList[i] + " " + minutesWorked[i] + " " + minMins);
       if(minutesWorked[i] <= minMins && DriverInfo.isAvailable(driversList[i], day))
       {        
         
@@ -157,6 +156,7 @@ public class RosterManager
 	{	   
 	  if(driversList[i] == driversUsed[j].driver_id)
 	  {
+            System.out.println("HELLO");
             if(serv.starttime > driversUsed[j].endTime)
 	      temp = true;
 	    else
@@ -183,7 +183,7 @@ public class RosterManager
 	}
       }      
     }  
-    System.out.println(driver + " " + minMins);
+    
     return driver;
   }
 
@@ -234,21 +234,5 @@ public class RosterManager
       today.add(Calendar.DAY_OF_MONTH, 1);
     }    
   }
-/*
-  private void setDriverUnavailable(int driver_id)
-  {
-  }
- 
-  private void setBusUnavailable(int bus_id)
-  {
-  }
 
-  private void setDriverAvailable(int driver_id)
-  {
-  }
-
-  private void setBusAvailable(int bus_id)
-  {
-  }  
-*/ 
 }
