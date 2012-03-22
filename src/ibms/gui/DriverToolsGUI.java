@@ -15,6 +15,8 @@ import ibms.exceptions.NotEnoughHolidaysException;
 import ibms.exceptions.UnknownDriverException;
 import ibms.models.Driver;
 import ibms.models.Holiday;
+import ibms.wrappers.DriverInfo;
+import ibms.exceptions.*;
 //import ibms.models.RestDay;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -360,12 +362,16 @@ public class DriverToolsGUI extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         try{
+            String driverNumber = this.txtDriverId.getText();
             Calendar first = new GregorianCalendar();
             first.setTime(formatter.parse(this.txtFirstDay.getText()));
-//            RestDay newRestDay = new RestDay(currentDriver.getNumber(), first);
-//        }catch(DateTakenException e){
+            DriverInfo.setAvailable(Integer.parseInt(driverNumber),first.getTime(), false);
+            this.lblError.setText("Holiday added");
+        }
+        catch(Exception e)
+        {
             this.lblError.setText("You're already inavilable on the date you selected.");
-        }catch(Exception e){
+    
             System.err.println(e);
         }
     }//GEN-LAST:event_jButton1MouseClicked
