@@ -2,18 +2,13 @@ package ibms;
 import java.util.*;
 import ibms.wrappers.*;
 
-class Pack
-{
-  service serv;
-  int bus_id;
-  int driver_id;
-}
 public class RosterManager
 {
   private int[] services;
   private int[] buses;
   private int[] drivers;
-  private int[] minutesWorked;
+  private int[] minutesDriverWorked;
+  private int[] minutesBusWorked;
   private int[] routes;
   private Pack[][] packs;
   private int numberOfServices;
@@ -51,7 +46,8 @@ public class RosterManager
     packs = new Pack[numberOfDays][];   
     buses = BusInfo.getBuses();
     drivers = DriverInfo.getDrivers();
-    minutesWorked = new int[drivers.length];
+    minutesDriverWorked = new int[drivers.length];
+    minutesBusWorked = new int[buses.length];
     numberOfServices = 0;
     routes = BusStopInfo.getRoutes();
   }
@@ -78,16 +74,27 @@ public class RosterManager
 	packs[i][j].driver_id = getLeastWorkingDriver(drivers, today.getTime(), packs[i][j].serv);   // correct it!
         packs[i][j].bus_id = getAvailableBus(buses, today.getTime(), packs[i][j].serv);		// correct it!
         int findDriver = 0;
+        int findBus = 0;
 	for(int k = 0; k < drivers.length; k++)
 	  if(packs[i][j].driver_id == drivers[k])
-	    findDriver = k;
-	minutesWorked[findDriver] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
+          {
+	    findDriver = k;            
+          }
+
+        for(int k = 0; k < buses.length; k++)
+	  if(packs[i][j].bus_id == buses[k])
+          {
+	    findBus = k;
+          }
+	minutesDriverWorked[findDriver] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
+        minutesBusWorked[findBus] += (packs[i][j].serv.endtime) - (packs[i][j].serv.starttime);
       }	    
       today.add(Calendar.DAY_OF_MONTH, 1);
       driversUsedIndex = 0;
       busesUsedIndex = 0;
     }
-    printPacks();    
+    printPacks();
+    toDatabase(packs);
   }
 
   private int getNumberOfServices(Date day)
@@ -149,7 +156,7 @@ public class RosterManager
     {
       temp = false;
       found = false;
-      if(minutesWorked[i] < minMins && DriverInfo.isAvailable(driversList[i], day))
+      if(minutesDriverWorked[i] < minMins && DriverInfo.isAvailable(driversList[i], day))
       {
         for(int j=0; j<driversUsedIndex; j++)
 	{	   
@@ -167,14 +174,14 @@ public class RosterManager
 	if(temp)
 	{
           driver = driversList[i];
-          minMins = minutesWorked[i];
+          minMins = minutesDriverWorked[i];
 	}
 	else
 	{
 	  if(!found)
 	  {
             driver = driversList[i];
-	    minMins = minutesWorked[i];
+	    minMins = minutesDriverWorked[i];
 	  }
 	}
       }      
@@ -183,7 +190,7 @@ public class RosterManager
     driversUsedIndex++;
     return driver;
   }
-
+  
   private int getAvailableBus(int[] busesList, Date day, service serv)
   {
     int bus_id = 0;
@@ -243,7 +250,33 @@ public class RosterManager
       today.add(Calendar.DAY_OF_MONTH, 1);
     }
     for(int k=0; k<drivers.length; k++)
-      System.out.println("Driver ID: " + drivers[k] + " " + "Driver working time: " + minutesWorked[k]);
+      System.out.println("Driver ID: " + drivers[k] + " " + "Driver working time: " + minutesDriverWorked[k]);
+    for(int k=0; k<buses.length; k++)
+      System.out.println("Bus ID: " + buses[k] + " " + "Bus working time: " + minutesBusWorked[k]);
+  }
+
+  private void toDatabase(Pack[][] packsToDB)
+  {
+    Calendar today = (Calendar) startDate.clone();    
+    for(int i=0; i<numberOfDays; i++)
+    {      
+      numberOfServices = getNumberOfServices(today.getTime());
+      for(int j=0; j<numberOfServices; j++)
+        setService(packsToDB[i][j].serv.serviceid, packsToDB[i][j].serv.starttime, packsToDB[i][j].driver_id, packsToDB[i][j].bus_id, startDate.getTime());
+
+      today.add(Calendar.DAY_OF_MONTH, 1);
+    }
+  }
+
+  private void setService(int service_id,  int service_time, int driver_id, int bus_id, Date weekStart)
+  {
+    if (weekStart == null) throw new InvalidQueryException("Date is null");
+    if (service_time == 0) throw new InvalidQueryException("Time is null");
+    if (service_id == 0) throw new InvalidQueryException("Nonexistent service");
+    if (driver_id == 0) throw new InvalidQueryException("Nonexistent driver");
+    if (bus_id == 0) throw new InvalidQueryException("Nonexistent bus");
+
+    database.busDatabase.new_record("roster", new Object[][]{{"service_id", service_id}, {"service_time", service_time}, {"driver_id", driver_id}, {"bus_id", bus_id}, {"weekStart", weekStart}});
   }
 
 }
