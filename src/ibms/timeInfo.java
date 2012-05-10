@@ -160,7 +160,7 @@ public class timeInfo
     for(i = 0; i < service_ids.length; i++)
     {
       thisService = database.busDatabase.find_id("time", "timetable_line", "service", service_ids[i], "timing_point", next);
-      if(thisService > timing_point && thisService != 0)
+      if(thisService > timing_point + 10 && thisService != 0)
       {
         if(enough > 4)
           break fillarray;
@@ -168,16 +168,16 @@ public class timeInfo
         {
          if(run[enough] == 1)
            run[enough] = database.busDatabase.find_id("running", "roster", "weekStart", toDate, "service_id", service_ids[i]);
-         nextTimes[enough] = database.busDatabase.find_id("time", "timetable_line", "service", service_ids[i], "timing_point", next);
+           nextTimes[enough] = database.busDatabase.find_id("time", "timetable_line", "service", service_ids[i], "timing_point", next);
          enough++;
         }
       }
     }
-    System.out.println(pre + " " + next);
 
     for(i = 0; i < 5; i++)
     {
       //System.out.println(preTimes[i]);
+      System.out.println(preTimes[i] + " " + nextTimes[i]);
       thisService = nextTimes[i] - preTimes[i];
       thisService = preTimes[i] + (thisService/2);
       int hours = 0;
