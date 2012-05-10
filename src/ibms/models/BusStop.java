@@ -22,6 +22,10 @@ public class BusStop {
         this.isTimingPoint = BusStopInfo.isTimingPoint(stopId);
 
     }
+    
+    public int getId(){
+        return this.stopId;
+    }
     public String toString(){
         return String.format("Stop: %s.\n", this.fullName);
     }
