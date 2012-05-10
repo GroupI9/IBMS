@@ -11,6 +11,7 @@
 
 package ibms.gui;
 
+import ibms.models.BusStop;
 import ibms.wrappers.BusStopInfo;
 import javax.swing.JComboBox;
 import ibms.pathManager;
@@ -47,7 +48,7 @@ public class PasengerToolsGUI2 extends javax.swing.JFrame {
         int stops[] = BusStopInfo.getBusStopsInArea(BusStopInfo.findAreaByName(currentArea));
         b.removeAllItems();
         for(int stop : stops)
-            b.addItem(BusStopInfo.getFullName(stop) + "");
+            b.addItem(new BusStop(stop));
     }
 
     /** This method is called from within the constructor to
@@ -131,6 +132,11 @@ public class PasengerToolsGUI2 extends javax.swing.JFrame {
         btnGenerateRoute.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnGenerateRouteMouseClicked(evt);
+            }
+        });
+        btnGenerateRoute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateRouteActionPerformed(evt);
             }
         });
 
@@ -249,15 +255,15 @@ public class PasengerToolsGUI2 extends javax.swing.JFrame {
 
     private void btnGenerateRouteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerateRouteMouseClicked
         // TODO add your handling code here:
-        String startArea = this.cmbStartArea.getSelectedItem().toString();
-        String endArea = this.cmbEndArea.getSelectedItem().toString();
-        String startBusStop = this.cmbStartBS.getSelectedItem().toString();
-        String endBusStop = this.cmbEndBS.getSelectedItem().toString();
-
-        int startId = BusStopInfo.findBusStop(startArea, startBusStop);
-        int endId = BusStopInfo.findBusStop(endArea, endBusStop);
-        this.txtResult.setText(this.paths.findPath(startId, endId));
+        
+        BusStop start = (BusStop) cmbStartBS.getItemAt(cmbStartBS.getSelectedIndex());
+        BusStop end = (BusStop) cmbEndBS.getItemAt(cmbStartBS.getSelectedIndex());
+        this.txtResult.setText(paths.findPath(start.getId(), end.getId()));
     }//GEN-LAST:event_btnGenerateRouteMouseClicked
+
+    private void btnGenerateRouteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRouteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGenerateRouteActionPerformed
 
     /**
     * @param args the command line arguments
