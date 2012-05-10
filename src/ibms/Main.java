@@ -1,15 +1,23 @@
 package ibms;
+import ibms.wrappers.*;
 import ibms.gui.myGetRosterGUI;
 import ibms.gui.DriverToolsGUI;
+import ibms.gui.*;
 import ibms.gui.StartGUI;
 import java.util.Calendar;
 
 public class Main{
     public static void main(String[] args)
     {
-        DriverToolsGUI driver = new DriverToolsGUI();
-        StartGUI gui = new StartGUI();
-        gui.setVisible(true);
+        //DriverToolsGUI driver = new DriverToolsGUI();
+        //StartGUI gui = new StartGUI();
+        //gui.setVisible(true);
+
+        database.openBusDatabase();
+        PassengerToolsGUI passenger = new PassengerToolsGUI();
+        passenger.setAreas();
+        passenger.setVisible(true);
+        
 
         //Calendar startDate = Calendar.getInstance();
 	//startDate.set(2012, 0, 25);
