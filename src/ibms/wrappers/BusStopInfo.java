@@ -98,6 +98,15 @@ public class BusStopInfo
       return "";
   }
 
+  public static String getName(int busStop)
+  {
+    if (busStop == 0) throw new InvalidQueryException("Nonexistent bus stop");
+    database db = database.busDatabase;
+    if (db.select_record("area.name, name", database.join("bus_stop", "area", "area"), "bus_stop_id", busStop))
+      return (String)db.get_field("name");
+    else
+      return "";
+  }
   /**
    * Get al the bus stops in a given area
    */
