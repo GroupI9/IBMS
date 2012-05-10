@@ -202,7 +202,7 @@ public class pathManager {
         computePaths(vertices[sourceIdx]);       
 
         List<Vertex> path = getShortestPathTo(vertices[targetIdx]);
-        System.out.println("Path: " + path);       
+        result += "Path: " + path;
 
         int[] routes = BusStopInfo.getRoutes();
         int tempRouteId = 0;
@@ -213,7 +213,7 @@ public class pathManager {
                 if(path.get(0).id == busStopId)
                 {
                     tempRouteId = routeId;
-                    System.out.println("\nGet the bus: " + BusStopInfo.getRouteName(routeId));
+                    result += "\nGet the bus: "+ BusStopInfo.getRouteName(routeId);
                 }
             }
         }
@@ -228,7 +228,7 @@ public class pathManager {
                         if(tempRouteId != routeId)
                         {
                             tempRouteId = routeId;
-                            System.out.println("Change bus to "+ BusStopInfo.getRouteName(routeId) + " at "+busStop.name);
+                            result += "\nChange bus to "+ BusStopInfo.getRouteName(routeId) + " at "+busStop.name;
                         }
                 }
             }
