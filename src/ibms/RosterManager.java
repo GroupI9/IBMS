@@ -2,6 +2,13 @@ package ibms;
 import java.util.*;
 import ibms.wrappers.*;
 
+class Pack
+{
+  service serv;
+  int driver_id;
+  int bus_id;
+}
+
 public class RosterManager
 {
   private int[] services;
