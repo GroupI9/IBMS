@@ -1,3 +1,14 @@
+/* In this class, a route_id and bus_stop_id is given into the constructor.
+ * In addition, it automaticly formats the current date/time to that needed by the database.
+ *
+ * The method getTimes checks whether a roster exists for the current date, and if not, creates it.
+ * It then checks whether the bus stop given has times associated in the database (eg: 770).
+ * If not, it calls another method (average) and picks the times for the bus stop before and after,
+ * creates an average middle time and uses that data to output. Otherwise it gets the times and uses that.
+ *
+ * It then returns a String array holding the next 5 available services. It also shows whether those services
+ * are working or whether there is some form of cancellation.
+ */
 package ibms;
 
 import java.util.*;
@@ -199,5 +210,10 @@ public class timeInfo
         timeArray[i] = "" + (i + 1) + ". "+ time;
     }
   return timeArray;
+  }
+
+  public void setUnavailable()
+  {
+
   }
 }
