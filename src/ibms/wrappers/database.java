@@ -45,8 +45,8 @@ public class database
   {
     try
     {
-      busDatabase = new database("IBMS", "root",
-              "powermetal0", "jdbc:mysql://localhost:3306",
+      busDatabase = new database("12_COMP23420_I9", "12_COMP23420_I9",
+              "9OT7vGM28shnvhQj", "jdbc:mysql://ramen.cs.man.ac.uk:3306",
               "com.mysql.jdbc.Driver");
       busDatabase.open();
     }
