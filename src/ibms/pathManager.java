@@ -184,8 +184,9 @@ public class pathManager {
         }
     }
 
-    public void findPath(int sourceId, int targetId)
+    public String findPath(int sourceId, int targetId)
     {
+        String result = "";
         database.openBusDatabase();
         Initialize();
         int sourceIdx = 0;
@@ -212,7 +213,7 @@ public class pathManager {
                 if(path.get(0).id == busStopId)
                 {
                     tempRouteId = routeId;
-                    System.out.println("\nGet the bus: "+ BusStopInfo.getRouteName(routeId));
+                    System.out.println("\nGet the bus: " + BusStopInfo.getRouteName(routeId));
                 }
             }
         }
@@ -232,6 +233,7 @@ public class pathManager {
                 }
             }
         }
+        return result;
     }
 
 }
