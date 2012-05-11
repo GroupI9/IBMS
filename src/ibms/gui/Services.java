@@ -10,7 +10,6 @@
  */
 
 package ibms.gui;
-import ibms.*;
 import java.util.*;
 import ibms.wrappers.*;
 import java.awt.Container;
@@ -264,10 +263,8 @@ public class Services extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2KeyPressed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        timeInfo test = new timeInfo(route, busStopID);
-        String[] lol = test.getTimes();
-        for (int i = 0; i < lol.length; i++)
-          jTextArea.setText(lol[i]);
+        jTextArea.setText("Route:" + route + "\nArea: " + area + "\nBusStopID: "
+                          + busStopID);
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**

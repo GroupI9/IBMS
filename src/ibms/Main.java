@@ -1,6 +1,5 @@
 package ibms;
 import ibms.wrappers.*;
-import ibms.gui.myGetRosterGUI;
 import ibms.gui.DriverToolsGUI;
 import ibms.gui.*;
 import ibms.gui.StartGUI;
@@ -14,9 +13,8 @@ public class Main{
         //gui.setVisible(true);
 
         database.openBusDatabase();
-        PassengerToolsGUI passenger = new PassengerToolsGUI();
-        passenger.setAreas();
-        passenger.setVisible(true);
+        LauncherGUI gui = new LauncherGUI();
+        gui.setVisible(true);
         
 
         //Calendar startDate = Calendar.getInstance();

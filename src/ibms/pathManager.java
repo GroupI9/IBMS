@@ -74,7 +74,8 @@ public class pathManager {
 
     private Vertex[] vertices;    
     private int MaxSize;
-   
+    private List<Vertex> previousRoute;
+    private int numberOfChanges;
     private void computePaths(Vertex source)
     {
         source.minDistance = 0.;
@@ -186,6 +187,7 @@ public class pathManager {
 
     public String findPath(int sourceId, int targetId)
     {
+        numberOfChanges = 0;
         String result = "";
         database.openBusDatabase();
         Initialize();
@@ -203,6 +205,8 @@ public class pathManager {
 
         List<Vertex> path = getShortestPathTo(vertices[targetIdx]);
         result += "Path: " + path;
+        this.previousRoute = path;
+        
 
         int[] routes = BusStopInfo.getRoutes();
         int tempRouteId = 0;
@@ -214,6 +218,7 @@ public class pathManager {
                 {
                     tempRouteId = routeId;
                     result += "\nGet the bus: "+ BusStopInfo.getRouteName(routeId);
+                    numberOfChanges += 1;
                 }
             }
         }
@@ -235,5 +240,16 @@ public class pathManager {
         }
         return result;
     }
+    
+    public int previousSize(){
+        return this.previousRoute.size();
+    }
+    public int getNumberOfChanges(){
+        return this.numberOfChanges;
+    }
+    
+   public int sizeOfGraph(){
+       return this.vertices.length;
+   }
 
 }
